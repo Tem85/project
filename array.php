@@ -119,7 +119,7 @@ echo '<br>';
 $data = [20, 39, 50, 120, 6, 5, 4, 1, 2, 3,];
 $d = (count($data));
 for ($j = 1; $j < $d; $j++) {
-    ///print_r ($data);
+    //print_r ($data);
     echo '<br>';
     for ($i = 0; $i < $d - $j; $i++) {
         if ($data[$i] > $data[$i+1]) {
@@ -136,3 +136,5 @@ for ($j = 1; $j < $d; $j++) {
     }
     print_r ($data);
 }
+echo '<br>';
+echo '<br>';
