@@ -1,26 +1,29 @@
 <?php
 // необходимо найти общие пересечения и соединить их
 // многомерный массив
-$arrays = [[1,3], [9,10], [2,7], [11,20], [4,100], [1,3],[101,0]];
-print_r('Изначальный массив - '. json_encode($arrays));
-//массив после прохождения функции
-$lastArray = [];
-//функция проходит по каждому элементу массива заглядывая в каждую вложенную структуру.
-// Далее, после обхода, в анонимной функции каждый элемент добавляется в новый массив $lastArray через ключевое слово use
-array_walk_recursive($arrays, function ($item) use (&$lastArray) {
-    $lastArray[] = $item; // Сохраняется каждый элемент
-});
-//Удаляет повторяющиеся значения из массива
-$lastArraySort =  (array_unique($lastArray));
+$lastArray = [[1,3], [2,7], [9,11], [10,20]];
+//$lastArray = [];
+//array_walk_recursive($arrays, function ($item) use (&$lastArray) {
+//    $lastArray[] = $item; // Сохраняется каждый элемент
+//});
+//sort($lastArray);
+usort($lastArray, fn($a, $b) => $a <=> $b);
+//print_r($lastArray);
 echo '<br>';
+$lastArrayNewMerge = [];
+$lastArrayStart = $lastArray[0][0];
+$lastArrayEnd = $lastArray[0][1];
 
-// Сортирует массив по возрастанию
-// стрелочная функция, сравнивает 2 элемента. В этом случае два элемента равны, возвращая ноль.
-$sortArray = fn($c, $d) => $c <=> $d;
-// В качестве аргументов передается новый массив и стрелочная функция
-usort($lastArraySort, $sortArray);
-// На этом этапе выводим отсортированный новый многомерный массив, чтоб отрезки не пересекались между собой.
-$newArraySort = (array_chunk($lastArraySort, 2));
-print_r ('Отсортированный массив - '. json_encode($newArraySort));
-echo '<br>';
-echo '<br>';
+foreach ($lastArray as $item) {
+    if ($item[0] <= $lastArrayEnd + 1) {
+        $lastArrayEnd = max($lastArrayEnd, $item[1]);
+        //print_r($lastArrayEnd);
+    } else {
+        $lastArrayNewMerge[] = [$lastArrayStart, $lastArrayEnd];
+        $lastArrayStart = $item[0];
+        $lastArrayEnd = $item[1];
+        //print_r($lastArrayEnd);
+    }
+}
+$lastArrayNewMerge[] = [$lastArrayStart, $lastArrayEnd];
+print_r(json_encode($lastArrayNewMerge));
