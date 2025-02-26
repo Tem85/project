@@ -57,38 +57,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //echo json_encode([
   //  'error' => $error,
 //]);
-
-
-
-exit;
-$result = false;
-$error = [];
-$email =[];
-if (!isset($_POST["email"])) {
-    $error[] = [
-        'code' => 1,
-        'message' => 'no login'
-    ];
-}
-
-if (!isset($_POST["password"])) {
-    $error[] = [
-        'code' => 2,
-        'message' => 'no pass'
-    ];
-}
-
-
-if (!empty($email)) {
-    $_SESSION['error'] = 'Пользователь с таким именем существует';
-    header('Location: /public/form.php');
-    exit;
-}
-
-
-
-
-//<?php if(isset($_SESSION['error'])):
-  //  <div class="alert-info">Пользователь с таким именем существует</div>
-
-    //<?php unset($_SESSION['error']);
