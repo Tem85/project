@@ -1,0 +1,7 @@
+
+{"login":"test@test.ru","password":"$2y$10$rrzSpLEBYizHoR\/JgDhKZuSTES4c1kdGi5EkWGr858P20RBMiE5BG"}
+{"login":"1test@test.ru","password":"$2y$10$g3SUBEfkrTS28JaVCM874.upUKDir.vzoW\/MkBqmbfpqnseiuxrQC"}
+{"login":"2test@test.ru","password":"$2y$10$oIhraKDaSoXZ1xIXybyx8uObgRGnzjnBT4ktxOgfo4zPCOrCBhFSm"}
+{"login":"3test@test.ru","password":"$2y$10$ncnmYpt7y2oTdehz0DXp0e36oFvJWv8MMsDnxDKyH7bFJ71Cn.C52"}
+{"login":"4test@test.ru","password":"$2y$10$Iq7wbEv3brPuC67mgQf9juFWMWugouTWvv6WMZmSPOA9Ok4UOoEaS"}
+{"login":"5test@test.ru","password":"$2y$10$fkSi2sz96NrsCXu68IdNV.mjzFdFIA1Byzoz7ls0pG\/gW38JcfGFi"}
