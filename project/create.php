@@ -2,10 +2,10 @@
 //session_start();
 header('Content-Type: application/json; charset=utf-8');
 
-$error =[];
+$error = [];
+$currents = [];
+
 $file = __DIR__ . '/email.txt';
-$result = fopen($file, 'r');
-$result = fread($result, filesize($file));
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -27,21 +27,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = htmlspecialchars($_POST["password"]);
     $hash_password = password_hash($password, PASSWORD_DEFAULT);
 
-
-    if (strpos($result, $email) !== false && empty($error)) {
+    if (file_exists($file)) {
+        $current = file_get_contents($file);
+        //$current = $email.', '."\n".$hash_password."\n";
+    } else {
         $error[] = [
-            'code' => 3,
-            'message' => 'Пользователь с таким именем уже существует'
+            'code' => 4,
+            'message' => 'no write to file'
         ];
     }
 
-    if (file_exists($file)) {
-        $current = file_get_contents($file);
-        $current = (json_encode(['login' => $email, 'password' => $hash_password]). "\n");
+    if (!str_contains($current, $email)) {
+        $current = (json_encode([['login' => $email, 'password' => $hash_password]]). "\n");
     } else {
         $error[] = [
             'code' => 3,
-            'message' => 'no write to file'
+            'message' => 'Пользователь с таким именем уже существует'
         ];
     }
 
