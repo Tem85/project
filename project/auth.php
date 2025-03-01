@@ -34,9 +34,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
     $log = [];
-    while (($srtLine = fgets($result)) !== false) { // Читаем строку
-        $srtLine = trim($srtLine); // Убираем лишние пробелы
-        $jsonData = json_decode($srtLine, true); // Парсим JSON
+    while (($srtLine = fgets($result)) !== false) {
+        $srtLine = trim($srtLine);
+        $jsonData = json_decode($srtLine, true);
 
         if ($jsonData === null) {
             $error[] = [
@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Cannot parse json: " . $srtLine,
             ];
         } else {
-            $log[] = $jsonData; // Если JSON валидный, добавляем в лог
+            $log[] = $jsonData;
         }
     }
 
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ];
     }
 
-    fclose($result); // Закрываем файл
+    fclose($result);
 
     if(empty($error)){
         echo "Здравствуйте $email";
