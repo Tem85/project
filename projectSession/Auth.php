@@ -77,7 +77,7 @@ class Auth
         {
             $_SESSION['auth'] = true;
         }
-        //var_dump($_SESSION['email']);
+
 
         return $response;
     }

@@ -4,7 +4,6 @@ namespace projectSession;
 require_once 'User.php';
 require_once 'Validate.php';
 
-//session_start();
 
 class Registration
 {
@@ -88,44 +87,3 @@ $result = $registration->setEmail(htmlspecialchars($_POST["email"]))
     ->setPassword(htmlspecialchars($_POST["password"]))
     ->registration();
 print_r($result);
-
-
-
-
-
-
-
-
-
-
-
-//    public function registration()
-//    {
-//        $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-//        $data = __DIR__. '/email.json';
-//        $dataArrays = file_get_contents($data);
-//        $dataArray = json_encode(['email' => $this->email, 'password' => $hash_password, 'roles' => $this->roles]);
-//
-//        if(empty($this->email) || empty($this->password)) {
-//            echo  'Please enter all the fields';
-//            exit;
-//        }
-//
-//        if (str_contains($dataArrays, $this->email)) {
-//            echo 'Please enter a valid email address';
-//            exit;
-//        }
-//
-//        if(empty($error)) {
-//            file_put_contents($data, $dataArray);
-//            //$_SESSION["email"] = $email;
-//            //$_SESSION["password"] = $hash_password;
-//            //$_SESSION["role"] = "user";
-//            //echo 'Здравствуйте '. $this->email;
-//            header('Location: log-out.php');
-//        }
-//    }
-//}
-//
-//$registration = new Registration(htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["password"]));
-//$registration->registration();

@@ -3,7 +3,6 @@
 use projectSession\Auth;
 use projectSession\Registration;
 
-//require_once "Registration.php";
 require_once "User.php";
 require_once "Validate.php";
 require_once "Auth.php";
