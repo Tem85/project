@@ -6,18 +6,10 @@ class User
 //    private bool $isAuthorized = false;
     private string $email;
     private string $password;
-//    private string $role;
-//    private int $id;
     public function __construct()
     {
-//        $this->role = $role;
-//        $this->id = $id;
-//        $this->isAuthorized = false;
+
     }
-//    public function isAuthorized(): bool
-//    {
-//        return $this->isAuthorized;
-//    }
     public function getEmail(): string
     {
         return $this->email;
