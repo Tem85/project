@@ -4,42 +4,34 @@ namespace projectSession;
 
 class Auth
 {
-    private string $email;
-    private string $password;
+    private $email;
+    private $password;
 
-    public function __construct()
-    {
-
-    }
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): Auth
+    public function __construct($email, $password)
     {
         $this->email = $email;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): Auth
-    {
         $this->password = $password;
-        return $this;
     }
 
     public function authenticate(): array
     {
+        $_SESSION['auth'] = false;
         $validate = new Validate();
         $response = [
             'status' => true,
             'error' => [],
         ];
+
+        if ($validate->emptyEmail($this->email) === false)
+        {
+            $response =[
+                'status' => false,
+                'error' => [
+                    'message' => 'Email is invalid',
+                    'code' => 21
+                ],
+            ];
+        }
 
         if (!$validate->isEmail($this->email))
         {
@@ -52,19 +44,10 @@ class Auth
 
             ];
         }
-        if ($validate->emptyEmail($this->email) === false)
-        {
-            $response =[
-                'status' => false,
-                'error' => [
-                    'message' => 'Email is invalid',
-                    'code' => 21
-                ],
-            ];
-        }
+
         if ($validate->isPassword($this->password) === false)
         {
-            $response =[
+            $response = [
                 'status' => false,
                 'error' => [
                     'message' => 'Password is invalid',
@@ -75,11 +58,13 @@ class Auth
 
         if ($response['status'] === true)
         {
+            $data = file_get_contents(__DIR__. '/email.json');
+            $data = json_decode($data, true);
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['password'] = $data['password'];
             $_SESSION['auth'] = true;
         }
 
-
         return $response;
     }
-
 }
