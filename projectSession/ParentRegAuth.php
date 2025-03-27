@@ -20,9 +20,10 @@ class ParentRegAuth
         return $this->email;
     }
 
-    public function setEmail(string $email): string
+    public function setEmail(string $email): ParentRegAuth
     {
         $this->email = $email;
+        return $this;
     }
 
     public function getPassword(): string
@@ -30,8 +31,9 @@ class ParentRegAuth
         return $this->password;
     }
 
-    public function setPassword(string $password): string
+    public function setPassword(string $password): ParentRegAuth
     {
         $this->password = $password;
+        return $this;
     }
 }

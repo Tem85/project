@@ -14,8 +14,8 @@ class Registration extends ParentRegAuth
 
     public function registration(): array
     {
-        $email = parent::setEmail($this->getEmail());
-        $password = parent::setPassword($this->getPassword());
+        $email = $this->getEmail();
+        $password = $this->getPassword();
         $_SESSION['reg'] = false;
         $validate = new Validate();
         $response = [
@@ -46,8 +46,8 @@ class Registration extends ParentRegAuth
         }
 
         if ($response['status']) {
-            $hash_password = password_hash($password(), PASSWORD_DEFAULT);
-            $dataArray = json_encode(['email' => $email(), 'password' => $hash_password, 'role' => 'user']);
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+            $dataArray = json_encode(['email' => $email, 'password' => $hash_password, 'role' => 'user']);
             file_put_contents(__DIR__. '/email.json', $dataArray);
             $_SESSION['email'] = $email;
             $_SESSION['password'] = $hash_password;

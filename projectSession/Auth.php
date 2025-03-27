@@ -2,19 +2,19 @@
 
 namespace projectSession;
 
-class Auth
-{
-    private $email;
-    private $password;
+require_once 'ParentRegAuth.php';
 
+class Auth extends ParentRegAuth
+{
     public function __construct($email, $password)
     {
-        $this->email = $email;
-        $this->password = $password;
+        parent::__construct($email, $password);
     }
 
     public function authenticate(): array
     {
+        $email = $this->getEmail();
+        $password = $this->getPassword();
         $_SESSION['auth'] = false;
         $validate = new Validate();
         $response = [
@@ -22,7 +22,7 @@ class Auth
             'error' => [],
         ];
 
-        if ($validate->emptyEmail($this->email) === false)
+        if ($validate->emptyEmail($email) === false)
         {
             $response =[
                 'status' => false,
@@ -33,7 +33,7 @@ class Auth
             ];
         }
 
-        if (!$validate->isEmail($this->email))
+        if (!$validate->isEmail($email))
         {
             $response =[
                 'status' => false,
@@ -45,7 +45,7 @@ class Auth
             ];
         }
 
-        if ($validate->isPassword($this->password) === false)
+        if ($validate->isPassword($password) === false)
         {
             $response = [
                 'status' => false,

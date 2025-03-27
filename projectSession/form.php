@@ -2,7 +2,7 @@
 
 <div class="form_wraper_registration">
     <h3 class="form_wraper_registration__title">Registration</h3>
-    <form action="obj.php" method="post">
+    <form action="obj-reg.php" method="post">
         <div class="form_wraper_input">
             <label for="mail">Email</label>
             <input class="form_email" type="email" id="mail" name="email">
@@ -21,7 +21,7 @@
         <?php unset($_SESSION['error']);?>
     <?php endif;?>
     <h3 class="form__wraper__authorisation__title">Authorisation</h3>
-    <form action="obj.php" method="get">
+    <form action="obj-auth.php" method="post">
         <div class="form__wraper__input__auth">
             <label for="mail">Email</label>
             <input class="form_email" type="email" id="mail" name="email">
