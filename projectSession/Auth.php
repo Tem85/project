@@ -2,46 +2,38 @@
 
 namespace projectSession;
 
-class Auth
+require_once 'ParentRegAuth.php';
+
+class Auth extends ParentRegAuth
 {
-    private string $email;
-    private string $password;
-
-    public function __construct()
+    public function __construct($email, $password)
     {
-
-    }
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): Auth
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): Auth
-    {
-        $this->password = $password;
-        return $this;
+        parent::__construct($email, $password);
     }
 
     public function authenticate(): array
     {
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+        $_SESSION['auth'] = false;
         $validate = new Validate();
         $response = [
             'status' => true,
             'error' => [],
         ];
 
-        if (!$validate->isEmail($this->email))
+        if ($validate->emptyEmail($email) === false)
+        {
+            $response =[
+                'status' => false,
+                'error' => [
+                    'message' => 'Email is invalid',
+                    'code' => 21
+                ],
+            ];
+        }
+
+        if (!$validate->isEmail($email))
         {
             $response =[
                 'status' => false,
@@ -52,19 +44,10 @@ class Auth
 
             ];
         }
-        if ($validate->emptyEmail($this->email) === false)
+
+        if ($validate->isPassword($password) === false)
         {
-            $response =[
-                'status' => false,
-                'error' => [
-                    'message' => 'Email is invalid',
-                    'code' => 21
-                ],
-            ];
-        }
-        if ($validate->isPassword($this->password) === false)
-        {
-            $response =[
+            $response = [
                 'status' => false,
                 'error' => [
                     'message' => 'Password is invalid',
@@ -75,11 +58,13 @@ class Auth
 
         if ($response['status'] === true)
         {
+            $data = file_get_contents(__DIR__. '/email.json');
+            $data = json_decode($data, true);
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['password'] = $data['password'];
             $_SESSION['auth'] = true;
         }
 
-
         return $response;
     }
-
 }

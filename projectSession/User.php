@@ -3,33 +3,23 @@
 namespace projectSession;
 class User
 {
-//    private bool $isAuthorized = false;
+    private bool $isAuthorized;
     private string $email;
-    private string $password;
-    public function __construct()
+    public function __construct($email, $isAuthorized = false)
     {
-
+        $this->email = $email;
+        $this->isAuthorized = $isAuthorized;
     }
     public function getEmail(): string
     {
         return $this->email;
     }
-
-    public function setEmail(string $email): User
+    public function isAuthorized(): bool
     {
-        $this->email = $email;
-        return $this;
+        if ($_SESSION["auth"] === true)
+        {
+            $this->isAuthorized = true;
+        }
+        return $this->isAuthorized;
     }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): User
-    {
-        $this->password = $password;
-        return $this;
-    }
-
 }

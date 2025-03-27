@@ -3,42 +3,20 @@
 namespace projectSession;
 require_once 'User.php';
 require_once 'Validate.php';
+require_once 'ParentRegAuth.php';
 
-
-class Registration
+class Registration extends ParentRegAuth
 {
-    private string $email;
-    private string $password;
-
-    public function __construct()
+    public function __construct(string $email, string $password)
     {
-
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): Registration
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): Registration
-    {
-        $this->password = $password;
-        return $this;
+        parent::__construct($email, $password);
     }
 
     public function registration(): array
     {
+        $email = $this->getEmail();
+        $password = $this->getPassword();
+        $_SESSION['reg'] = false;
         $validate = new Validate();
         $response = [
             'status' => true,
@@ -46,7 +24,7 @@ class Registration
 
         ];
 
-        if (!$validate->isEmail($this->email)) {
+        if (!$validate->isEmail($email)) {
             $response = [
                 'status' => false,
                 'error' => [
@@ -56,7 +34,7 @@ class Registration
             ];
         }
 
-        if (str_contains(file_get_contents(__DIR__. '/email.json'), $validate->isEmail($this->email)))
+        if (str_contains(file_get_contents(__DIR__. '/email.json'), $validate->isEmail($email)))
         {
             $response = [
                 'status' => false,
@@ -67,23 +45,15 @@ class Registration
             ];
         }
 
-
         if ($response['status']) {
-            $hash_password = password_hash($this->password, PASSWORD_DEFAULT);
-            $dataArray = json_encode(['email' => $this->email, 'password' => $hash_password, 'role' => 'user']);
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+            $dataArray = json_encode(['email' => $email, 'password' => $hash_password, 'role' => 'user']);
             file_put_contents(__DIR__. '/email.json', $dataArray);
-            $_SESSION['email'] = $this->email;
+            $_SESSION['email'] = $email;
             $_SESSION['password'] = $hash_password;
             $_SESSION['role'] = 'user';
+            $_SESSION['reg'] = true;
         }
-        //var_dump($_SESSION['email']);
         return $response;
     }
 }
-
-$registration = new Registration();
-
-$result = $registration->setEmail(htmlspecialchars($_POST["email"]))
-    ->setPassword(htmlspecialchars($_POST["password"]))
-    ->registration();
-print_r($result);
