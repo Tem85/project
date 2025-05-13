@@ -1,6 +1,5 @@
 <?php
 
-
 use projectSession\Registration;
 use projectSession\User;
 
@@ -12,8 +11,8 @@ $registration = new Registration(htmlspecialchars($_POST["email"]), htmlspecialc
 $result = $registration->registration();
 if ($_SESSION['reg'])
 {
-    $users = new User($_SESSION['email']);
-    $user = $users->getEmail();
+    $users = new User();
+    $user = $users->setEmail($_SESSION['email']);
     header('Location: index.php');
 } else {
     print_r($result);

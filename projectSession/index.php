@@ -1,10 +1,11 @@
 <?php
 
+use projectSession\Auth;
 use projectSession\User;
 
 require_once "User.php";
 require_once "Auth.php";
+require_once "Registration.php";
 
-$users = new User($_SESSION['email']);
-$user = $users->getEmail();
-echo 'Добрый день '. $user;
+$users = new User();
+echo 'Добрый день '. $_SESSION['role']. ', ' . $_SESSION['email'];

@@ -1,6 +1,7 @@
 <?php
 
 namespace projectSession;
+
 require_once 'User.php';
 require_once 'Validate.php';
 require_once 'ParentRegAuth.php';

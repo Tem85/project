@@ -19,8 +19,7 @@ class Validate
     }
     public function isPassword(string $password)
     {
-        if (!password_verify($password, $_SESSION['password']))
-        {
+        if (!password_verify($password, $_SESSION['password'])) {
             return false;
         }
     }
