@@ -1,4 +1,26 @@
+<pre>
 <?php
+
+$connect = "mysql:host=mysql;dbname=app";
+$user = "user";
+$pass = "secret";
+
+$pdo = new PDO($connect, $user, $pass);
+
+$sql = "SELECT * FROM `user`";
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+    var_dump($row);
+}
+
+
+
+
+
+exit();
+
 //комментарий
 /**
  * Авторизация

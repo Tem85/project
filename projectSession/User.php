@@ -1,19 +1,22 @@
 <?php
 
 namespace projectSession;
+
 class User
 {
-    private bool $isAuthorized;
+    private bool $isAuthorized = false;
     private string $email;
-    public function __construct($email, $isAuthorized = false)
+    public function __construct()
     {
-        $this->email = $email;
-        $this->isAuthorized = $isAuthorized;
+        if ($this->isAuthorized)
+        {
+            $data = file_get_contents(__DIR__. '/email.json');
+            $data = json_decode($data, true);
+            $_SESSION['email'] = $data['email'];
+            $_SESSION['role'] = $data['role'];
+        }
     }
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
+
     public function isAuthorized(): bool
     {
         if ($_SESSION["auth"] === true)
@@ -21,5 +24,15 @@ class User
             $this->isAuthorized = true;
         }
         return $this->isAuthorized;
+    }
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): User
+    {
+        $this->email = $email;
+        return $this;
     }
 }

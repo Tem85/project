@@ -10,7 +10,7 @@ $auth = new Auth($_POST['email'], $_POST['password']);
 $results = $auth->authenticate();
 if ($_SESSION['auth'])
 {
-    $users = new User($_SESSION['auth']);
+    $users = new User();
     $users->isAuthorized();
     header('Location: index.php');
 } else {

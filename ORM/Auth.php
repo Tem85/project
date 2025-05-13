@@ -1,8 +1,10 @@
 <?php
 
-namespace projectSession;
+namespace ORM;
 
 require_once 'ParentRegAuth.php';
+require_once 'User.php';
+
 
 class Auth extends ParentRegAuth
 {
@@ -13,40 +15,43 @@ class Auth extends ParentRegAuth
 
     public function authenticate(): array
     {
+
         $email = $this->getEmail();
         $password = $this->getPassword();
+        $user = new User();
+        $userEmailPass = $user->findEmail($email);
         $_SESSION['auth'] = false;
-        $validate = new Validate();
         $response = [
             'status' => true,
             'error' => [],
         ];
 
-        if ($validate->emptyEmail($email) === false)
-        {
-            $response =[
+        if (empty($email) || empty($password)) {;
+            $response = [
                 'status' => false,
                 'error' => [
-                    'message' => 'Email is invalid',
-                    'code' => 21
-                ],
+                    'message' => 'All fields are required',
+                    'code' => 1
+                ]
             ];
         }
 
-        if (!$validate->isEmail($email))
-        {
-            $response =[
+        if (empty($userEmailPass)) {;
+            $_SESSION['error'] = 'Email or password is incorrect';
+            header('location: /ORM/form.php');
+            $response = [
                 'status' => false,
                 'error' => [
-                'message' => 'Email is invalid',
+                    'message' => 'All fields are required',
                     'code' => 20
-                ],
-
+                ]
             ];
         }
 
-        if ($validate->isPassword($password) === false)
-        {
+
+        if (password_verify($password, $userEmailPass['password']) === false) {
+            $_SESSION['error'] = 'Email or password is incorrect';
+            header('location: /ORM/form.php');
             $response = [
                 'status' => false,
                 'error' => [
@@ -58,6 +63,8 @@ class Auth extends ParentRegAuth
 
         if ($response['status'] === true)
         {
+            $_SESSION['email'] = $userEmailPass['email'];
+            $_SESSION['id'] = $userEmailPass['Id'];
             $_SESSION['auth'] = true;
         }
 
